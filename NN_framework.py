@@ -2,8 +2,14 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
+
+def relu(x):
+    return max(0, x)
+
+
 def sigmoid(x):
   return 1 / (1 + math.exp(-x))
+
 
 def calc_neuron(inputs, weights, bias):
     output = 0

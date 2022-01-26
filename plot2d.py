@@ -1,7 +1,11 @@
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-
+from matplotlib.ticker import MaxNLocator
+from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D
+from numpy.random import randn
+from scipy import array, newaxis
 
 def relu(x):
     return max(0, x)
@@ -61,27 +65,31 @@ class RandomNeuralNet(object):
             for neuron in layer.values():
                 print(neuron)
 
-nn = RandomNeuralNet([15, 15, 15, 1], 3)
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+nn = RandomNeuralNet([15, 15, 15, 1], 2)
+
+samples = 40
+scale = 0.5
 
 x=[]
 y=[]
 z=[]
-c=[]
 
-size = 20
+for i in range(samples):
+    for j in range(samples):
+        x.append((i*scale)-(samples*scale/2))
+        y.append((j*scale)-(samples*scale/2))
+        z.append(calc_network(nn.N, [(i*scale)-(samples*scale/2), (j*scale)-(samples*scale/2)]))
 
-for i in range(size):
-    
-    for j in range(size):
-        
-        for k in range(size):
-            x.append(i-(size/2))
-            y.append(j-(size/2))
-            z.append(k-(size/2))
-            c.append(calc_network(nn.N, [i-(size/2), j-(size/2), k-(size/2)]))
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 
-img = ax.scatter(x, y, z, c=c, cmap=plt.jet())
-fig.colorbar(img)
+surf = ax.plot_trisurf(x, y, z, cmap=cm.jet, linewidth=0)
+fig.colorbar(surf)
+
+ax.xaxis.set_major_locator(MaxNLocator(5))
+ax.yaxis.set_major_locator(MaxNLocator(6))
+ax.zaxis.set_major_locator(MaxNLocator(5))
+
+fig.tight_layout()
+
 plt.show()

@@ -61,27 +61,18 @@ class RandomNeuralNet(object):
             for neuron in layer.values():
                 print(neuron)
 
-nn = RandomNeuralNet([15, 15, 15, 1], 3)
+nn = RandomNeuralNet([15, 15, 15, 1], 1)
 fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
 
 x=[]
 y=[]
-z=[]
-c=[]
 
 size = 20
 
 for i in range(size):
-    
-    for j in range(size):
-        
-        for k in range(size):
-            x.append(i-(size/2))
-            y.append(j-(size/2))
-            z.append(k-(size/2))
-            c.append(calc_network(nn.N, [i-(size/2), j-(size/2), k-(size/2)]))
 
-img = ax.scatter(x, y, z, c=c, cmap=plt.jet())
-fig.colorbar(img)
+    x.append(i-(size/2))
+    y.append(calc_network(nn.N, [i-(size/2)]))
+
+img = plt.plot(x, y)
 plt.show()
